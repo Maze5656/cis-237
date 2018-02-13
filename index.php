@@ -58,7 +58,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <button class="btn btn-default" type="submit">Submit</button>
+                    <button class="btn btn-outline-primary" type="submit">Submit</button>
                 </div>
             </div>
 

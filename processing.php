@@ -3,8 +3,7 @@ require("base.php");
 
 /**
  * I chose GET to use over POST mainly because of the simplicity of this program.
- * Because this program is designed to create data instead of modify data, GET
- * seemed like a fine choice. While the parameters are shown on the browser's URL
+ * While the parameters are shown on the browser's URL
  * with GET, security isn't an issue with this small program.
  */
 extract($_GET);

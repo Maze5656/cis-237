@@ -4,6 +4,10 @@
     as well as the document's root location.
 */
 
+require("FileMovieManager.php");
+require("Movie.php");
+require("HTMLPage.php");
+
 // Get the root directory
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 $path = "$document_root/../movieLog.txt";

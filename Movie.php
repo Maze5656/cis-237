@@ -3,15 +3,15 @@
 class Movie {
 
     private $movieName = '';
-    private $directorName = '';
+    private $director = '';
     private $artists = '';
     private $genre = '';
     private $rating = '';
 
     //constructor
-    function __construct($movieName, $directorName, $artists, $genre, $rating) {
-        $this->setMovieName($MovieName);
-        $this->setDirectorName($directorName);
+    function __construct($movieName, $director, $artists, $genre, $rating) {
+        $this->setMovieName($movieName);
+        $this->setDirectorName($director);
         $this->setArtists($artists);
         $this->setGenre($genre);
         $this->setRating($rating);
@@ -19,32 +19,37 @@ class Movie {
 
     // __get function
     function __get($attr_name) {
-        return $this->attr_name;
+        return $this->$attr_name;
     }
 
-    // __set function
+    // set function with variable function
     function __set($attr_name, $value) {
+        // in $attr_name, replace _ with " "
         $attr_name = str_replace('_', ' ', $attr_name);
         $attr_name = ucwords($attr_name);
         $attr_name = str_replace(' ', '', $attr_name);
         $function = "set$attr_name";
-        var_dump($function);
+        //var_dump($function);
         $this->$function($value);
-        //$this->$attr_name = $value;
     }
 
     // Individual set functions
-    function setMovieName($movieName) {
-        // uppercase every word and trim white space chars
-        $this->movieName = ucwords(trim($movieName));
+    function setMovieName($name) {
+        echo "The movie name: " . $name . "\n"; // shows that $name does contain a string
+        $this->movieName = $name;               // This should set movieName to $name
+        echo $this->movieName; // this shows a name!
     }
 
-    function setDirectorName($directorName) {
-        $this->directorName = ucwords(trim($directorName));
+    function setDirectorName($director) {
+        $this->director = ucwords(trim($director));
     }
 
     function setArtists($artists) {
-        $this->artists = ucwords(trim($artists));
+        if (!empty($artists)) {
+            $this->artists = ucwords(trim($artists));
+        } else {
+            $this->artists = "n/a";
+        }
     }
 
     function setGenre($genre) {

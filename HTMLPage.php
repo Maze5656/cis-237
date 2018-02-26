@@ -56,9 +56,8 @@ EOT;
         <html>
 EOT;
     }
+}
 
 $htmlPage = new HTMLPage();
-
-}
 
 ?>

@@ -1,31 +1,31 @@
-<?php require("base.php"); ?>
+<?php
+require("base.php");
 
-<!DOCTYPE html>
-<html>
-<?php require ("head.php"); ?>
-   <body>
-       <?php require ("nav.php"); ?>
+$list = $fileMovieManager->read();
 
-       <div class="container">
-            <div class="row">
-                <table class="table">
-                    <thead>
-
-                       <tr>
-                           <th>Name</th>
-                           <th>Director</th>
-                           <th>Artists</th>
-                           <th>Genre</th>
-                           <th>Rating</th>
-                       </tr>
-                    </thead>
-
-                   <tbody>
-                       <?php echo readFromFile($path); ?>
-                   </tbody>
-
-               </table>
-            </div>
+$body = <<<EOT
+   <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                   <tr>
+                       <th>Name</th>
+                       <th>Director</th>
+                       <th>Artists</th>
+                       <th>Genre</th>
+                       <th>Rating</th>
+                       <th colspan="2">Actions</th>
+                   </tr>
+                </thead>
+               <tbody>
+                   $list
+               </tbody>
+           </table>
         </div>
-   </body>
-</html>
+    </div>
+EOT;
+
+$htmlPage->setBody($body);
+$htmlPage->printPage();
+
+?>

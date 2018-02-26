@@ -10,12 +10,20 @@ class FileMovieManager implements MovieManagerInterface {
         $this->path = $path;
     }
 
+    /**
+    *   Writes to a file.
+    *   @param string $file - path to the file
+    *   @param string $content - string to write to the file
+    *   @return bool
+    */
     function create(Movie $movie) : bool {
         $fp = fopen($this->path, 'ab');
         if (!$fp) {
             return false;
         }
-        $content = "$movie->movieName, $movie->directorName, $movie->artists, $movie->genre, $movie->rating";
+        echo "\nI'm in the create() function: " . $movie->movieName; // nothing
+        $content = "$movie->movieName, $movie->director, $movie->artists, $movie->genre, $movie->rating\n";
+        echo $content . "This was the content.";
         if (!fwrite($fp, $content)) {
             return false;
         }
@@ -25,16 +33,39 @@ class FileMovieManager implements MovieManagerInterface {
         return true;
     }
 
-    function read() {
-        return file_get_contents($this->path);
+    /**
+    *   Reads from a file
+    *   @param string $file - path to the file
+    *   @return string
+    */
+    function read() : String {
+        // get the user's movie data
+        $list = file_get_contents($this->path);
+
+        // format the data for placement in a table
+        $movie_log = explode("\n", trim($list));
+        $table_body = '';
+
+        foreach($movie_log as $entry) {
+            $movie = explode(',', trim($entry));
+                $table_body .= '<tr>';
+                $table_body .= '<td>' . $movie[0] . '</td>';
+                $table_body .= '<td>' . $movie[1] . '</td>';
+                $table_body .= '<td>' . $movie[2] . '</td>';
+                $table_body .= '<td>' . $movie[3] . '</td>';
+                $table_body .= '<td>' . $movie[4] . '</td>';
+                $table_body .= '<td><a href="edit.php?id=' . $entry . '" class="btn btn-primary">Edit';
+                $table_body .= '</tr>';
+        }
+        return $table_body;
     }
 
     function readOneById(int $id) : Movie {
-        return;
+        return 0;
     }
 
     function update(int $id, Movie $movie) : bool {
-        return;
+        return 0;
     }
 
 }
@@ -42,6 +73,6 @@ class FileMovieManager implements MovieManagerInterface {
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 $path = "$document_root/../movieLog.txt";
 
-$fileRecordManager = new FileRecordManager($path);
+$fileMovieManager = new FileMovieManager($path);
 
 ?>

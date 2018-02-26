@@ -35,9 +35,7 @@ class Movie {
 
     // Individual set functions
     function setMovieName($name) {
-        echo "The movie name: " . $name . "\n"; // shows that $name does contain a string
-        $this->movieName = $name;               // This should set movieName to $name
-        echo $this->movieName; // this shows a name!
+        $this->movieName = ucwords(trim($name));
     }
 
     function setDirectorName($director) {
@@ -45,6 +43,7 @@ class Movie {
     }
 
     function setArtists($artists) {
+        // Was artists entered?
         if (!empty($artists)) {
             $this->artists = ucwords(trim($artists));
         } else {

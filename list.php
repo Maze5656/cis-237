@@ -28,4 +28,5 @@ EOT;
 $htmlPage->setBody($body);
 $htmlPage->printPage();
 
+$list
 ?>

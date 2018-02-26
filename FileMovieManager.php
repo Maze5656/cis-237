@@ -11,19 +11,16 @@ class FileMovieManager implements MovieManagerInterface {
     }
 
     /**
-    *   Writes to a file.
-    *   @param string $file - path to the file
-    *   @param string $content - string to write to the file
-    *   @return bool
-    */
+     * Writes movie to a file.
+     * @param Movie $movie
+     * @return bool
+     */
     function create(Movie $movie) : bool {
         $fp = fopen($this->path, 'ab');
         if (!$fp) {
             return false;
         }
-        echo "\nI'm in the create() function: " . $movie->movieName; // nothing
         $content = "$movie->movieName, $movie->director, $movie->artists, $movie->genre, $movie->rating\n";
-        echo $content . "This was the content.";
         if (!fwrite($fp, $content)) {
             return false;
         }
@@ -34,10 +31,9 @@ class FileMovieManager implements MovieManagerInterface {
     }
 
     /**
-    *   Reads from a file
-    *   @param string $file - path to the file
-    *   @return string
-    */
+     * Reads from a file
+     * @return string
+     */
     function read() : String {
         // get the user's movie data
         $list = file_get_contents($this->path);
@@ -46,7 +42,7 @@ class FileMovieManager implements MovieManagerInterface {
         $movie_log = explode("\n", trim($list));
         $table_body = '';
 
-        foreach($movie_log as $entry) {
+        foreach($movie_log as $key => $entry) {
             $movie = explode(',', trim($entry));
                 $table_body .= '<tr>';
                 $table_body .= '<td>' . $movie[0] . '</td>';
@@ -54,20 +50,60 @@ class FileMovieManager implements MovieManagerInterface {
                 $table_body .= '<td>' . $movie[2] . '</td>';
                 $table_body .= '<td>' . $movie[3] . '</td>';
                 $table_body .= '<td>' . $movie[4] . '</td>';
-                $table_body .= '<td><a href="edit.php?id=' . $entry . '" class="btn btn-primary">Edit';
+                $table_body .= '<td><a href="edit.php?id=' . $key . '" class="btn btn-primary">Edit';
                 $table_body .= '</tr>';
         }
         return $table_body;
     }
 
+    /**
+     * Get one movie by its ID
+     * @param int $id
+     * @return Movie
+     */
     function readOneById(int $id) : Movie {
-        return 0;
+        // find the movie using its id
+        $file = new SplFileObject($this->path);
+        if (!$file->eof()) {
+            $file->seek($id);
+            $contents = $file->current();
+        }
+        $contentLine = explode(',', $contents);
+        $movie = new Movie($contentLine[0], $contentLine[1], $contentLine[2], $contentLine[3], (int)$contentLine[4]);
+
+        return $movie;
     }
 
+    /**
+     * Update a single movie by id
+     * @param int $id
+     * @param Movie $movie
+     * @return bool
+     */
     function update(int $id, Movie $movie) : bool {
-        return 0;
-    }
+        // First, take movie's attributes into string
+        $editedMovie = "$movie->movieName, $movie->director, $movie->artists, $movie->genre, $movie->rating\n";
 
+        // find the place in the file where the movie was
+        $file = new SplFileObject($this->path);
+        if (!$file->eof()) {
+            $file->seek($id);
+            $oldMovie = $file->current();
+        }
+
+        // get the file contents
+        $fileContents = file_get_contents($this->path);
+
+        // replace old movie with edited movie
+        $fileContents = str_replace($oldMovie, $editedMovie, $fileContents);
+
+        // Attempt to write the edited text to the movieList.txt file
+        if (file_put_contents($this->path, $fileContents)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 $document_root = $_SERVER['DOCUMENT_ROOT'];

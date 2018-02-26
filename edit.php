@@ -6,23 +6,24 @@ $id = null;
 
 if (isset($_GET) && isset($_GET['id'])) {
     $id = $_GET['id'];
-    $record = $fileMovieManager->readOneById($id);
+    $movie = $fileMovieManager->readOneById($id);
 }
 
 if (isset($_POST) && !empty($_POST)) {
     extract($_POST);
-    $movie = new Movie($movieName, $director, $artists, $genre, $rating);
+    $movie = new Movie($name, $director, $artists, $genre, $rating);
+
     if ($fileMovieManager->update($id, $movie)) {
-        header('Location: /list.php');
+        header('Location: list.php');
     }
 }
 
 $body = <<<EOT
  <div class="container">
         <div class="col-6">
-            <h1 class="col-6">New Movie</h1>
+            <h1 class="col-6">Edit Movie</h1>
 
-            <form action="processing.php" method="GET" class="form-horizontal" novalidate>
+            <form action="" method="POST" class="form-horizontal" novalidate>
 
                 <div class="form-group required">
                     <label class="col-md-2 control-label">Name</label>

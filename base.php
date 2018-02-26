@@ -23,6 +23,7 @@ function printArray(array $array) {
     echo '<pre>' . print_r($array, true) . '</pre>';
 }
 
+//----- Old functions kept for referrence purposes. I can delete if requested -----
 
 /**
 *   Writes to a file.
@@ -51,7 +52,7 @@ function writeToFile(string $file, string $content) : bool {
 */
 function readFromFile(String $file) : String {
     // get the user's movie data
-    //(old)$list = file_get_contents($file);
+    $list = file_get_contents($file);
 
 
     // format the data for placement in a table
@@ -66,7 +67,6 @@ function readFromFile(String $file) : String {
             $table_body .= '<td>' . $movie[2] . '</td>';
             $table_body .= '<td>' . $movie[3] . '</td>';
             $table_body .= '<td>' . $movie[4] . '</td>';
-            $table_body .= '<td><a href="edit.php?id=' . $key . '" class="btn btn-primary">Edit "';
             $table_body .= '</tr>';
     }
     return $table_body;

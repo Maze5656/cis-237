@@ -18,6 +18,12 @@ if (isset($_POST) && !empty($_POST)) {
     }
 }
 
+$genres = [ 'Action' => null, 'Comedy' => null, 'Horror' => null, 'Romance' => null ];
+$genres[trim($movie->genre)] = 'selected';
+
+$rating = [ 1 => null, 2 => null, 3 => null, 4 => null, 5 => null ];
+$rating[trim($movie->rating)] = 'checked';
+
 $body = <<<EOT
  <div class="container">
         <div class="col-6">
@@ -50,10 +56,10 @@ $body = <<<EOT
                     <label class="col-md-2 control-label">Genre</label>
                         <div class="col-md-10">
                         <select class="custom-select" name="genre">
-                            <option selected>Action</option>
-                            <option selected>Comedy</option>
-                            <option selected>Horror</option>
-                            <option selected>Romance</option>
+                            <option $genres[Action]>Action</option>
+                            <option $genres[Comedy]>Comedy</option>
+                            <option $genres[Horror]>Horror</option>
+                            <option $genres[Romance]>Romance</option>
                         </select>
                         </div>
                     </div>
@@ -61,11 +67,11 @@ $body = <<<EOT
                 <div class="form-group required">
                     <label class="col-md-2 control-label">Rating</label>
                         <div class="col-md-10">
-                            <input type="radio" name="rating" value="1" checked required> 1
-                            <input type="radio" name="rating" value="2"> 2
-                            <input type="radio" name="rating" value="3"> 3
-                            <input type="radio" name="rating" value="4"> 4
-                            <input type="radio" name="rating" value="5"> 5
+                            <input type="radio" name="rating" value="1" $rating[1] required> 1
+                            <input type="radio" name="rating" value="2" $rating[2]> 2
+                            <input type="radio" name="rating" value="3" $rating[3]> 3
+                            <input type="radio" name="rating" value="4" $rating[4]> 4
+                            <input type="radio" name="rating" value="5" $rating[5]> 5
                         </div>
                     </label>
                 </div>

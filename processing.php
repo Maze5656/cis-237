@@ -9,52 +9,42 @@ require("base.php");
 extract($_GET);
 
 if (!empty($name) && !empty($director) && !empty($rating)) {
-    // uppercase every word and trim white space chars
-    $name = ucwords(trim($name));
-    $director = ucwords(trim($director));
-    // if unrequired data exists, format it
-    if (!empty($artists)) {
-        $artists = ucwords(trim($artists));
-    }
-    if (!empty($genre)) {
-        $genre = ucwords(trim($genre));
-    }
 
-    // build the string of user data
-    $content = "$name, $director, ";
-    // did the user enter artist data?
-    if (!empty($artists)) { $content .= ("$artists, ");
-    } else { $content .= (" ,"); }
-    // did the user enter genre data?
-    if (!empty($genre)) { $content .= ("$genre, ");
-    } else { $content .= (" ,"); }
-    $content .= "$rating\n";
+    $movie = new Movie($name, $director, $artists, $genre, $rating);
 
     // Set the success or fail message
-    if (!writeToFile($path, $content)) {
-        $message = sprintf("$alert", 'danger', "File could not be written to.");
+    if (!$fileMovieManager->create($movie)) {
+
+        try {
+            @$fileMovieManager->create($movie);
+            $alert = new Alert('Error: File could not be written to.', 'danger');
+        } catch (FileOpenException $e) {
+            $message = $e;
+        } catch (FileWriteException $e) {
+            $message = $e;
+        } catch (FileCloseException $e) {
+            $message = $e;
+        } catch (Exception $e) {
+        }
     } else {
-        $message = sprintf("$alert", 'success', "$name got saved to the movie log!");
+        $alert = new Alert($name . ' got saved to the movie log!', 'success');
     }
+} else {
+    // Required fields not entered, set the fail message.
+    $alert = new Alert('Error: Name, Director, and a rating is required!', 'danger');
 }
-// Required fields not entered, set the fail message.
-else {
-    $message = sprintf("$alert", 'danger', "Name, Director, and a rating is required!");
-}
+
+$message = $alert->show();
+
+$body = <<<EOT
+   <div class="container">
+        <div class="row">
+            $message
+        </div>
+   </div>
+EOT;
+
+$htmlPage->setBody($body);
+$htmlPage->printPage();
 
 ?>
-
-<!DOCTYPE html>
-<html>
-<?php require ("head.php"); ?>
-   <body>
-       <?php require ("nav.php"); ?>
-
-       <div class="container">
-            <div class="row">
-                <?php echo $message; ?>
-            </div>
-        </div>
-
-   </body>
-</html>

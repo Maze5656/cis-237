@@ -2,3 +2,8 @@
     content: " *";
     color: red;
 }
+
+.bg-img {
+    background: linear-gradient(to right, #e6e6e630, whitesmoke), url(../images/bg.jpg);
+}
+

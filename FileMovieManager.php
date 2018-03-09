@@ -112,9 +112,6 @@ class FileMovieManager implements MovieManagerInterface {
     }
 }
 
-$document_root = $_SERVER['DOCUMENT_ROOT'];
-$path = "$document_root/../movieLog.txt";
 
-$fileMovieManager = new FileMovieManager($path);
 
 ?>

@@ -1,12 +1,19 @@
 <?php
 require("base.php");
 
+$dataSourceStatus = $dataSource->getStatus();
+$buttons = $dataSource->buttons();
+$source = $dataSource->getSource();
+
 $body = <<<EOT
     <div class="container">
         <div class="col-6">
+            <p class="bg-info">$dataSourceStatus</p>
+            $buttons
             <h1 class="col-6">New Movie</h1>
 
             <form action="processing.php" method="GET" class="form-horizontal" novalidate>
+            <input type="hidden" name="source" value=$source>
 
                 <div class="form-group required">
                     <label class="col-md-2 control-label">Name</label>

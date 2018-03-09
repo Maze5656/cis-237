@@ -40,7 +40,7 @@ EOT;
 
     function setBody($body) {
         $this->body = <<<EOT
-        <body>
+        <body class="bg-img">
             $this->nav
             $body
         </body>

@@ -13,10 +13,10 @@ if (!empty($name) && !empty($director) && !empty($rating)) {
     $movie = new Movie($name, $director, $artists, $genre, $rating);
 
     // Set the success or fail message
-    if (!$fileMovieManager->create($movie)) {
+    if (!$dataSource->getMovieManager()->create($movie)) {
 
         try {
-            @$fileMovieManager->create($movie);
+            @$dataSource->getMovieManager()->create($movie);
             $alert = new Alert('Error: File could not be written to.', 'danger');
         } catch (FileOpenException $e) {
             $message = $e;
@@ -27,7 +27,7 @@ if (!empty($name) && !empty($director) && !empty($rating)) {
         } catch (Exception $e) {
         }
     } else {
-        $alert = new Alert($name . ' got saved to the movie log!', 'success');
+        $alert = new Alert($name . ' got saved to the ' . $dataSource->getSource() . "!", 'success');
     }
 } else {
     // Required fields not entered, set the fail message.

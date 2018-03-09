@@ -6,14 +6,14 @@ $id = null;
 
 if (isset($_GET) && isset($_GET['id'])) {
     $id = $_GET['id'];
-    $movie = $fileMovieManager->readOneById($id);
+    $movie = $dataSource->getMovieManager()->readOneById($id);
 }
 
 if (isset($_POST) && !empty($_POST)) {
     extract($_POST);
     $movie = new Movie($name, $director, $artists, $genre, $rating);
 
-    if ($fileMovieManager->update($id, $movie)) {
+    if ($dataSource->getMovieManager()->update($id, $movie)) {
         header('Location: list.php');
     }
 }

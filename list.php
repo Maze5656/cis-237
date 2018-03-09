@@ -1,8 +1,11 @@
 <?php
 require("base.php");
 
+$dataSourceStatus = $dataSource->getStatus();
+$buttons = $dataSource->buttons();
+
 try {
-    $list = @$fileMovieManager->read();
+    $list = @$dataSource->getMovieManager()->read();
 } catch (FileOpenException $e) {
     $list = $e;
 } catch (Exception $e) {
@@ -12,6 +15,8 @@ try {
 $body = <<<EOT
    <div class="container">
         <div class="row">
+        <p class="bg-info">$dataSourceStatus</p>
+        $buttons
             <table class="table">
                 <thead>
                    <tr>

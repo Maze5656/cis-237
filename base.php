@@ -6,11 +6,13 @@
 
 require("FileMovieManager.php");
 require("Movie.php");
+require("DatabaseMovieManager.php");
 require("HTMLPage.php");
 require("Alert.php");
 require("FileOpenException.php");
 require("FileWriteException.php");
 require("FileCloseException.php");
+require("DataSource.php");
 
 // Get the root directory
 $document_root = $_SERVER['DOCUMENT_ROOT'];

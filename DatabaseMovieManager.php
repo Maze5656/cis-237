@@ -72,7 +72,6 @@ class DatabaseMovieManager implements MovieManagerInterface {
         while($statement->fetch()) {
             $returnString .= "$title|-|$director|-|$artists|-|$genre|-|$rating|-|$id\n";
         }
-
         $this->disconnect();
         return $returnString;
     }
@@ -85,15 +84,4 @@ class DatabaseMovieManager implements MovieManagerInterface {
 
     }
 }
-
-
-//$databaseMovieManager->testConnection();
-
-
-//// this will create this movie each time you reload.
-//$movie = new Movie('The Shape of Water', 'Guillermo Del Toro', 'Sally Hawkins', 'Drama', 5);
-//$databaseMovieManager->create($movie);
-//// see above -- end
-//echo $databaseMovieManager->read();
-
 ?>

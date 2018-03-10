@@ -42,25 +42,11 @@ class FileMovieManager implements MovieManagerInterface {
         // get the user's movie data
         if ((!$list = file_get_contents($this->path))) {
             throw new FileOpenException();
-        } else {
-            // format the data for placement in a table
-            $movie_log = explode("\n", trim($list));
-            $table_body = '';
-
-            foreach ($movie_log as $key => $entry) {
-                $movie = explode(',', trim($entry));
-                $table_body .= '<tr>';
-                $table_body .= '<td>' . $movie[0] . '</td>';
-                $table_body .= '<td>' . $movie[1] . '</td>';
-                $table_body .= '<td>' . $movie[2] . '</td>';
-                $table_body .= '<td>' . $movie[3] . '</td>';
-                $table_body .= '<td>' . $movie[4] . '</td>';
-                $table_body .= '<td><a href="edit.php?id=' . $key . '" class="btn btn-primary">Edit';
-                $table_body .= '</tr>';
-            }
-            return $table_body;
         }
+
+        return $list;
     }
+
 
     /**
      * Get one movie by its ID

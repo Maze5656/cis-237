@@ -31,8 +31,8 @@ class DataSource {
 
     public function buttons() : string {
         $buttons = <<<EOT
-    <a class="btn btn-default btn-xs" href="?source=file" role="button">File<a/>
-    <a class="btn btn-default btn-xs" href="?source=database" role="button">Database<a/>
+    <a class="btn btn-outline-info btn-xs" href="?source=file" role="button">File</a>
+    <a class="btn btn-outline-info btn-xs" href="?source=database" role="button">Database</a>
 EOT;
         return $buttons;
     }
@@ -44,53 +44,42 @@ EOT;
     }
 
     private function listFromFile(string $data) : string {
-        // get the user's movie data
-        if ((!$data = file_get_contents($this->path))) {
-            throw new FileOpenException();
-        } else {
-            // format the data for placement in a table
-            $movie_log = explode("\n", trim($data));
-            $table_body = '';
+        // format the data for placement in a table
+        $movie_log = explode("\n", trim($data));
+        $table_body = '';
 
-            foreach ($movie_log as $key => $entry) {
-                $movie = explode('|-|', trim($entry));
-                $table_body .= '<tr>';
-                $table_body .= '<td>' . $movie[0] . '</td>';
-                $table_body .= '<td>' . $movie[1] . '</td>';
-                $table_body .= '<td>' . $movie[2] . '</td>';
-                $table_body .= '<td>' . $movie[3] . '</td>';
-                $table_body .= '<td>' . $movie[4] . '</td>';
-                $table_body .= '<td><a href="edit.php?id=' . $key . '&source=' . $this->getSource() .'" class="btn btn-primary">Edit</a></td>';
-                $table_body .= '</tr>';
-            }
-            return $table_body;
+        foreach ($movie_log as $key => $entry) {
+            $movie = explode(',', trim($entry));
+            $table_body .= '<tr>';
+            $table_body .= '<td>' . $movie[0] . '</td>';
+            $table_body .= '<td>' . $movie[1] . '</td>';
+            $table_body .= '<td>' . $movie[2] . '</td>';
+            $table_body .= '<td>' . $movie[3] . '</td>';
+            $table_body .= '<td>' . $movie[4] . '</td>';
+            $table_body .= '<td><a href="edit.php?id=' . $key . '&source=' . $this->getSource() .'" class="btn btn-primary">Edit</a></td>';
+            $table_body .= '</tr>';
         }
+        return $table_body;
     }
 
     private function listFromDatabase(string $data) : string {
-        // get the user's movie data
-        if ((!$data = file_get_contents($this->path))) {
-            throw new FileOpenException();
-        } else {
-            // format the data for placement in a table
-            $movie_log = explode("\n", trim($data));
-            $table_body = '';
+        // format the data for placement in a table
+        $movie_log = explode("\n", trim($data));
+        $table_body = '';
 
-            foreach ($movie_log as $entry) {
-                $movie = explode('|-|', trim($entry));
-                $table_body .= '<tr>';
-                $table_body .= '<td>' . $movie[0] . '</td>';
-                $table_body .= '<td>' . $movie[1] . '</td>';
-                $table_body .= '<td>' . $movie[2] . '</td>';
-                $table_body .= '<td>' . $movie[3] . '</td>';
-                $table_body .= '<td>' . $movie[4] . '</td>';
-                $table_body .= '<td><a href="edit.php?id=' . trim($movie[5]) . '&source=' . $this->getSource() . '" class="btn btn-primary">Edit</a></td>';
-                $table_body .= '</tr>';
-            }
-            return $table_body;
+        foreach ($movie_log as $entry) {
+            $movie = explode('|-|', trim($entry));
+            $table_body .= '<tr>';
+            $table_body .= '<td>' . $movie[0] . '</td>';
+            $table_body .= '<td>' . $movie[1] . '</td>';
+            $table_body .= '<td>' . $movie[2] . '</td>';
+            $table_body .= '<td>' . $movie[3] . '</td>';
+            $table_body .= '<td>' . $movie[4] . '</td>';
+            $table_body .= '<td><a href="edit.php?id=' . trim($movie[5]) . '&source=' . $this->getSource() . '" class="btn btn-primary">Edit</a></td>';
+            $table_body .= '</tr>';
         }
+        return $table_body;
     }
-
 }
 $dataSource = new DataSource();
 

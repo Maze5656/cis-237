@@ -5,7 +5,8 @@ $dataSourceStatus = $dataSource->getStatus();
 $buttons = $dataSource->buttons();
 
 try {
-    $list = @$dataSource->getMovieManager()->read();
+    $data = @$dataSource->getMovieManager()->read();
+    $list = $dataSource->list($data);
 } catch (FileOpenException $e) {
     $list = $e;
 } catch (Exception $e) {

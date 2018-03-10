@@ -57,7 +57,7 @@ $body = <<<EOT
                     <label class="col-md-2 control-label">Genre</label>
                         <div class="col-md-10">
                         <select class="custom-select" name="genre">
-                            <option $genres[Action]>Actions</option>
+                            <option $genres[Action]>Action</option>
                             <option $genres[Comedy]>Comedy</option>
                             <option $genres[Horror]>Horror</option>
                             <option $genres[Romance]>Romance</option>

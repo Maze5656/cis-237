@@ -31,8 +31,12 @@ class DataSource {
 
     public function buttons() : string {
         $buttons = <<<EOT
-    <a class="btn btn-outline-info btn-xs" href="?source=file" role="button">File</a>
-    <a class="btn btn-outline-info btn-xs" href="?source=database" role="button">Database</a>
+        <div class="container">
+            <div class="row">
+                <a class="btn btn-outline-info btn-xs" href="?source=file" role="button">File</a>
+                <a class="btn btn-outline-info btn-xs" href="?source=database" role="button">Database</a>
+            </div>
+        </div>
 EOT;
         return $buttons;
     }

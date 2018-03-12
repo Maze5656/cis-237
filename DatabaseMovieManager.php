@@ -78,11 +78,12 @@ class DatabaseMovieManager implements MovieManagerInterface {
 
     function readOneById(int $id) : Movie {
         $this->connect();
-
+        //------$query = "SELECT * FROM movie WHERE id=$id";
         // Find the passed movie id
-        $query = "SELECT * FROM movie WHERE id=$id";
-
+        $query = "SELECT * FROM movie WHERE id=?";
         $statement = $this->connection->prepare($query);
+        // bind the id
+        $statement->bind_param('i', $id);
         $statement->execute();
         $statement->bind_result($id, $title, $director, $artists, $genre, $rating);
         // Make the "old" movie again with its data
@@ -98,14 +99,14 @@ class DatabaseMovieManager implements MovieManagerInterface {
         $this->connect();
         // Find where the movie was in database and prepare query
         $query = "UPDATE movie SET title=?, director=?, artists=?, genre=?, rating=?
-                  WHERE id=$id";
+                  WHERE id=?";
         $statement = $this->connection->prepare($query);
         $title = $movie->movieName;
         $director = $movie->director;
         $artists = $movie->artists;
         $genre = $movie->genre;
         $rating = $movie->rating;
-        $statement->bind_param('ssssi', $title, $director, $artists, $genre, $rating);
+        $statement->bind_param('ssssii', $title, $director, $artists, $genre, $rating, $id);
         $statement->execute();
         $this->disconnect();
         if ($statement->affected_rows > 0) {
